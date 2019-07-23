@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Popular Movies 2</string>
+    <string name="content_desc">MOVIE IMAGE</string>
+    <string name="title" tools:keep="@string/title">TITLE : </string>
+    <string name="rating" tools:keep="@string/rating">RATING : </string>
+    <string name="select_movie_criteria">Select Movie Criteria</string>\
+
+    <!-- List Preference Variables -->
+
+    <string name="pref_criteria_label">Select Criteria</string>
+
+    <string name="pref_criteria_popular_label">Popular</string>
+    <string name="pref_criteria_toprated_label">Top Rated</string>
+    <string name="pref_criteria_favourite_label">Favourites</string>
+
+
+    <string name="pref_movie_key">moviecriteria</string>
+
+    <string name="pref_criteria_popular_value">popular</string>
+    <string name="pref_criteria_toprated_value">top_rated</string>
+    <string name="pref_criteria_favourite_value">favourites</string>
+    <string name="no_favourite_movies">There are no Favourite Movies</string>
+    <string name="background_content_desc">Background</string>
+    <string name="movie_poster_content_desc">MOVIE POSTER</string>
+    <string name="trailer_icon_content_desc">Trailer Icon</string>
+
+</resources>
