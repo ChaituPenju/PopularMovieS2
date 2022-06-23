@@ -11,15 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PopularMoviesActivity"
-            android:launchMode="singleTop"
-            android:exported="true">
+
+        <activity
+            android:name=".PopularMoviesActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MovieDetailActivity"
             android:launchMode="singleTop">
@@ -27,13 +30,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chaitupenju.popularmovies2.PopularMoviesActivity" />
         </activity>
-        <activity android:name=".MovieCriteriaActivity"
+
+        <activity
+            android:name=".MovieCriteriaActivity"
             android:label="@string/select_movie_criteria"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chaitupenju.popularmovies2.PopularMoviesActivity"/>
+                android:value="com.chaitupenju.popularmovies2.PopularMoviesActivity" />
         </activity>
+
         <provider
             android:name=".databaseutils.MovieProvider"
             android:authorities="com.chaitupenju.popularmovies2"

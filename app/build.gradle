@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 31
@@ -7,6 +8,7 @@ android {
         applicationId "com.chaitupenju.popularmovies2"
         minSdkVersion 15
         targetSdkVersion 31
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -19,7 +21,18 @@ android {
         }
     }
 
-    dataBinding.enabled = true
+    buildFeatures {
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -30,6 +43,9 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // for multidex support
+    implementation "androidx.multidex:multidex:2.0.1"
 
     // testing libraries
     testImplementation 'junit:junit:4.13.2'
