@@ -1,6 +1,9 @@
 # UdacityAndroidNanodegree-PopularMovieS
  Popular Movies android app 
 
+****New Modifications***
+- Migrating from old libraries to new AndroidX libraries and from Java- Kotlin (IN-PROGRESS)
+
 ****Concepts Covered***
 - Simple and complex Recycler Views
 - Preference Fragment and Shared Preferences

@@ -1,12 +1,13 @@
 package com.chaitupenju.popularmovies2;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chaitupenju.popularmovies2.datautils.MovieDetails;
 import com.squareup.picasso.Picasso;
@@ -38,9 +39,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     @Override
     public void onBindViewHolder(@NonNull MovieAdapterViewHolder holder, int position) {
         MovieDetails movieDetail = mMovieData[position];
-        Picasso.with(context)
-                .load(BASE_IMAGE_URL1 + movieDetail.getImage_url() + BASE_IMAGE_URL2)
-                .into(holder.mMovieImageView);
+//        Picasso.with(context)
+//                .load(BASE_IMAGE_URL1 + movieDetail.getImage_url() + BASE_IMAGE_URL2)
+//                .into(holder.mMovieImageView);
     }
 
     @Override

@@ -1,27 +1,26 @@
 package com.chaitupenju.popularmovies2;
 
+import static com.chaitupenju.popularmovies2.PopularMoviesActivity.MOVIE_SER_KEY;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
 
 import com.chaitupenju.popularmovies2.databaseutils.MovieDbContract;
 import com.chaitupenju.popularmovies2.databinding.ActivityMovieDetailBinding;
@@ -32,8 +31,6 @@ import com.chaitupenju.popularmovies2.reviews.Review;
 import com.chaitupenju.popularmovies2.reviews.ReviewsAdapter;
 import com.chaitupenju.popularmovies2.trailers.Trailer;
 import com.chaitupenju.popularmovies2.trailers.TrailersAdapter;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONException;
 
@@ -41,11 +38,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.chaitupenju.popularmovies2.PopularMoviesActivity.MOVIE_SER_KEY;
-
 
 public class MovieDetailActivity extends AppCompatActivity
-            implements LoaderManager.LoaderCallbacks {
+            implements LoaderManager.LoaderCallbacks<Object> {
+
+
     ArrayList<Trailer> mTrailer;
     ArrayList<Review> mReview;
     Intent receiveMovieData;
@@ -112,24 +109,24 @@ public class MovieDetailActivity extends AppCompatActivity
         else{
             mBinding.movieFavourite.setText("Mark as Favourite");
             //Picasso.with(this).load(imgURL).into(mImage);
-            Picasso.with(this).load(imgURL).into(new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    posterBitmap[0] = bitmap;
-                    mDetails.setPoster(posterBitmap[0]);
-                    mBinding.movieThumbnail.setImageBitmap(posterBitmap[0]);
-                }
-
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                }
-            });
+//            Picasso.with(this).load(imgURL).into(new Target() {
+//                @Override
+//                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                    posterBitmap[0] = bitmap;
+//                    mDetails.setPoster(posterBitmap[0]);
+//                    mBinding.movieThumbnail.setImageBitmap(posterBitmap[0]);
+//                }
+//
+//                @Override
+//                public void onBitmapFailed(Drawable errorDrawable) {
+//
+//                }
+//
+//                @Override
+//                public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//                }
+//            });
             mBinding.movieFavourite.setTextColor(Color.parseColor("#000000"));
             bFav.putBoolean("local",false);
         }
@@ -190,21 +187,26 @@ public class MovieDetailActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader loader, Object data) {
-        mDetails.setTrailers(mTrailer);
-        mDetails.setReviews(mReview);
-        mBinding.movieThumbnail.setImageBitmap(mDetails.getPoster());
-        if (mTrailer != null) {
-            trailersAdapter.setTrailers(mTrailer);
-            setListViewHeightBasedOnChildren(mBinding.trailerList, "trailerlist");
-        }
-        if (mReview != null) {
-            reviewsAdapter.setReviews(mReview);
-            setListViewHeightBasedOnChildren(mBinding.reviewList, "reviewlist");
-        }
-        mBinding.scrollMovieView.smoothScrollTo(0,0);
+    public void onLoadFinished(@NonNull Loader<Object> loader, Object data) {
 
     }
+
+//    @Override
+//    public void onLoadFinished(@NonNull Loader loader, Object data) {
+//        mDetails.setTrailers(mTrailer);
+//        mDetails.setReviews(mReview);
+//        mBinding.movieThumbnail.setImageBitmap(mDetails.getPoster());
+//        if (mTrailer != null) {
+//            trailersAdapter.setTrailers(mTrailer);
+//            setListViewHeightBasedOnChildren(mBinding.trailerList, "trailerlist");
+//        }
+//        if (mReview != null) {
+//            reviewsAdapter.setReviews(mReview);
+//            setListViewHeightBasedOnChildren(mBinding.reviewList, "reviewlist");
+//        }
+//        mBinding.scrollMovieView.smoothScrollTo(0,0);
+//
+//    }
 
     @Override
     public void onLoaderReset(@NonNull Loader loader) {

@@ -12,12 +12,12 @@
         android:layout_gravity="center"
         android:id="@+id/progress_bar"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.appcompat.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/movie_details"
         android:scrollbars="vertical">
-    </android.support.v7.widget.RecyclerView>
+    </androidx.appcompat.widget.RecyclerView>
 
     <TextView
         android:id="@+id/tv_error_msg"
