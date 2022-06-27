@@ -64,8 +64,8 @@ class MovieDetailActivity: AppCompatActivity(),
             }
         }
 
-        trailersAdapter = TrailersAdapter(this)
-        reviewsAdapter = ReviewsAdapter(this)
+        trailersAdapter = TrailersAdapter(this, arrayListOf())
+        reviewsAdapter = ReviewsAdapter(this, arrayListOf())
         mBinding.trailerList.adapter = trailersAdapter
         mBinding.reviewList.adapter = reviewsAdapter
         receiveMovieData = intent
@@ -173,11 +173,11 @@ class MovieDetailActivity: AppCompatActivity(),
         mDetails!!.reviews = mReview
         mBinding.movieThumbnail.setImageBitmap(mDetails!!.poster)
         if (mTrailer != null) {
-            trailersAdapter!!.setTrailers(mTrailer)
+            trailersAdapter!!.setTrailers(mTrailer!!)
             setListViewHeightBasedOnChildren(mBinding.trailerList, "trailerlist")
         }
         if (mReview != null) {
-            reviewsAdapter!!.setReviews(mReview)
+            reviewsAdapter!!.setReviews(mReview!!)
             setListViewHeightBasedOnChildren(mBinding.reviewList, "reviewlist")
         }
         mBinding.scrollMovieView.smoothScrollTo(0, 0)
@@ -205,16 +205,18 @@ class MovieDetailActivity: AppCompatActivity(),
         val elements = listAdapter.count
         if (elements > 0) {
             val listItem = listAdapter.getView(0, null, listView)
-            listItem.measure(0, 0)
-            val totalHeight = listItem.measuredHeight * (elements + 1)
+            listItem?.measure(0, 0)
+            val totalHeight = listItem?.measuredHeight?.times((elements + 1))
             val params = listView.layoutParams
-            params.height = (totalHeight
-                    + listView.dividerHeight * (listAdapter.count - 1))
+            if (totalHeight != null) {
+                params.height = (totalHeight
+                        + listView.dividerHeight * (listAdapter.count - 1))
+            }
             listView.layoutParams = params
         }
     }
 
-    fun setHeightOfReviewAdapter(listAdapter: ReviewsAdapter?, listView: ListView) {
+    private fun setHeightOfReviewAdapter(listAdapter: ReviewsAdapter?, listView: ListView) {
         if (listAdapter == null) {
             return
         }

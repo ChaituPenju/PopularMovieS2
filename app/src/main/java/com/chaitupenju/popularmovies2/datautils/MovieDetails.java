@@ -48,8 +48,8 @@ public class MovieDetails implements Serializable{
         contentValues.put(MovieDbContract.MovieEntry.MOVIE_POSTER_PATH, this.image_url);
         contentValues.put(MovieDbContract.MovieEntry.MOVIE_AVG, this.rating);
         contentValues.put(MovieDbContract.MovieEntry.MOVIE_RELEASE_DATE, this.release_date);
-        contentValues.put(MovieDbContract.MovieEntry.MOVIE_TRAILERS,Trailer.arrayToString(trailers));
-        contentValues.put(MovieDbContract.MovieEntry.MOVIE_REVIEWS,Review.arrayToString(reviews));
+        contentValues.put(MovieDbContract.MovieEntry.MOVIE_TRAILERS,Trailer.Companion.arrayToString(trailers));
+        contentValues.put(MovieDbContract.MovieEntry.MOVIE_REVIEWS,Review.Companion.arrayToString(reviews));
 
        /*ContentValues contentValues = new ContentValues();
         contentValues.put(MovieDbContract.MovieEntry.MOVIE_ID, this.id);
