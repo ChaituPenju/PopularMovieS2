@@ -21,6 +21,7 @@ import com.chaitupenju.popularmovies2.reviews.Review
 import com.chaitupenju.popularmovies2.reviews.ReviewsAdapter
 import com.chaitupenju.popularmovies2.trailers.Trailer
 import com.chaitupenju.popularmovies2.trailers.TrailersAdapter
+import com.squareup.picasso.Picasso
 import org.json.JSONException
 import java.io.IOException
 
@@ -31,12 +32,16 @@ class MovieDetailActivity: AppCompatActivity(),
         private const val LOADER_ID = 400
     }
 
-    var mTrailer: ArrayList<Trailer>? = null
-    var mReview: ArrayList<Review>? = null
+    var mTrailer: ArrayList<Trailer> = arrayListOf()
+    var mReview: ArrayList<Review> = arrayListOf()
+
     private lateinit var receiveMovieData: Intent
+
     var mDetails: MovieDetails? = null
-    var trailersAdapter: TrailersAdapter? = null
-    var reviewsAdapter: ReviewsAdapter? = null
+
+    lateinit var trailersAdapter: TrailersAdapter
+    lateinit var reviewsAdapter: ReviewsAdapter
+
     val posterBitmap = arrayOfNulls<Bitmap>(1)
 
     var bFav: Bundle? = null
@@ -48,8 +53,6 @@ class MovieDetailActivity: AppCompatActivity(),
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail)
         bFav = Bundle()
-
-        //Click the button to add movie to favourites
 
         //Click the button to add movie to favourites
         mBinding.movieFavourite.setOnClickListener {
@@ -66,25 +69,28 @@ class MovieDetailActivity: AppCompatActivity(),
         }
 
         trailersAdapter = TrailersAdapter(this, arrayListOf())
+            .also { mBinding.trailerList.adapter = it }
         reviewsAdapter = ReviewsAdapter(this, arrayListOf())
-        mBinding.trailerList.adapter = trailersAdapter
-        mBinding.reviewList.adapter = reviewsAdapter
+            .also { mBinding.reviewList.adapter = it }
+
         receiveMovieData = intent
-        mDetails =
-            receiveMovieData.getSerializableExtra(PopularMoviesActivity.MOVIE_SER_KEY) as MovieDetails?
+        mDetails = receiveMovieData.getSerializableExtra(PopularMoviesActivity.MOVIE_SER_KEY) as MovieDetails?
         mBinding.tvMovieTitle.text = mDetails!!.title
         val imgURL =
             MovieAdapter.BASE_IMAGE_URL1 + mDetails!!.image_url + MovieAdapter.BASE_IMAGE_URL2
         Log.d("CCC", "image url is:$imgURL")
-        //Picasso.with(this).load(imgURL).into(mImage);
-        //Picasso.with(this).load(imgURL).into(mImage);
+
+        Picasso.Builder(this).build()
+            .load(imgURL).into(mBinding.movieThumbnail)
+
         mBinding.trailerList.setOnItemClickListener { _, _, position, _ ->
-            val uri = trailersAdapter!!.getTrailerUri(position)
+            val uri = trailersAdapter.getTrailerUri(position)
             if (uri != null) {
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(intent)
             }
         }
+
         mBinding.movieSynopsys.text = mDetails!!.synopsys
         mBinding.movieUserRating.text = mDetails!!.rating + " / 10"
         mBinding.movieReleaseDate.text = mDetails!!.release_date.substring(0, 4)
@@ -101,7 +107,7 @@ class MovieDetailActivity: AppCompatActivity(),
             bFav!!.putBoolean("local", false)
         }
         Log.d("CCC", "oncreate")
-        manager.restartLoader(MovieDetailActivity.LOADER_ID, bFav, this)
+        manager.restartLoader(LOADER_ID, bFav, this)
     }
 
 
@@ -189,7 +195,7 @@ class MovieDetailActivity: AppCompatActivity(),
     }
 
 
-    fun setListViewHeightBasedOnChildren(listView: ListView, listType: String) {
+    private fun setListViewHeightBasedOnChildren(listView: ListView, listType: String) {
         if (listType == "trailerlist") {
             val listAdapter = listView.adapter as TrailersAdapter
             setHeightOfTrailerAdapter(listAdapter, listView)
@@ -199,7 +205,7 @@ class MovieDetailActivity: AppCompatActivity(),
         }
     }
 
-    fun setHeightOfTrailerAdapter(listAdapter: TrailersAdapter?, listView: ListView) {
+    private fun setHeightOfTrailerAdapter(listAdapter: TrailersAdapter?, listView: ListView) {
         if (listAdapter == null) {
             return
         }
