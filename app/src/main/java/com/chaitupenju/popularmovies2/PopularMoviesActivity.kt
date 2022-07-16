@@ -22,7 +22,8 @@ import androidx.loader.content.Loader
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chaitupenju.popularmovies2.MovieAdapter.MovieAdapterClickHandler
+import com.chaitupenju.MovieAdapter
+import com.chaitupenju.MovieCriteriaActivity
 import com.chaitupenju.popularmovies2.databaseutils.MovieDbContract
 import com.chaitupenju.popularmovies2.datautils.MovieDetails
 import com.chaitupenju.popularmovies2.datautils.NetworkUtils
@@ -31,7 +32,7 @@ import org.json.JSONException
 import java.io.IOException
 import java.util.*
 
-class PopularMoviesActivity: AppCompatActivity(), MovieAdapterClickHandler,
+class PopularMoviesActivity: AppCompatActivity(),
     OnSharedPreferenceChangeListener, LoaderManager.LoaderCallbacks<Array<MovieDetails>> {
 
     companion object {
@@ -59,12 +60,18 @@ class PopularMoviesActivity: AppCompatActivity(), MovieAdapterClickHandler,
         error_msg = findViewById(R.id.tv_error_msg)
         movieDetails = findViewById(R.id.movie_details)
 
-        movieAdapter = MovieAdapter(this, this)
-        mLayoutManager = GridLayoutManager(this, 2)
-        movieDetails.setHasFixedSize(true)
-        movieDetails.layoutManager = mLayoutManager
-        movieDetails.itemAnimator = DefaultItemAnimator()
-        movieDetails.adapter = movieAdapter
+        movieAdapter = MovieAdapter(this) {
+            val context: Context = this
+            val destinationClass: Class<*> = MovieDetailActivity::class.java
+            val intentMovieDetailActivity = Intent(context, destinationClass)
+            intentMovieDetailActivity.putExtra(MOVIE_SER_KEY, it)
+            startActivity(intentMovieDetailActivity)
+        }
+
+        movieDetails.apply {
+            itemAnimator = DefaultItemAnimator()
+            adapter = movieAdapter
+        }
 
         loadCriteriaFromPref(PreferenceManager.getDefaultSharedPreferences(this))
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -73,6 +80,7 @@ class PopularMoviesActivity: AppCompatActivity(), MovieAdapterClickHandler,
 
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
+
         mListState = mLayoutManager!!.onSaveInstanceState()
         state.putParcelable(SCROLL_POS_KEY, mListState)
     }
@@ -98,14 +106,6 @@ class PopularMoviesActivity: AppCompatActivity(), MovieAdapterClickHandler,
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onClick(mIntent: MovieDetails?) {
-        val context: Context = this
-        val destinationClass: Class<*> = MovieDetailActivity::class.java
-        val intentMovieDetailActivity = Intent(context, destinationClass)
-        intentMovieDetailActivity.putExtra(MOVIE_SER_KEY, mIntent)
-        startActivity(intentMovieDetailActivity)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String) {

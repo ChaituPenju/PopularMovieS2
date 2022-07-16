@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.AsyncTaskLoader
 import androidx.loader.content.Loader
+import com.chaitupenju.MovieAdapter
 import com.chaitupenju.popularmovies2.databaseutils.MovieDbContract
 import com.chaitupenju.popularmovies2.databinding.ActivityMovieDetailBinding
 import com.chaitupenju.popularmovies2.datautils.MovieDetails
@@ -77,7 +78,7 @@ class MovieDetailActivity: AppCompatActivity(),
         Log.d("CCC", "image url is:$imgURL")
         //Picasso.with(this).load(imgURL).into(mImage);
         //Picasso.with(this).load(imgURL).into(mImage);
-        mBinding.trailerList.setOnItemClickListener { parent, view, position, id ->
+        mBinding.trailerList.setOnItemClickListener { _, _, position, _ ->
             val uri = trailersAdapter!!.getTrailerUri(position)
             if (uri != null) {
                 val intent = Intent(Intent.ACTION_VIEW, uri)
