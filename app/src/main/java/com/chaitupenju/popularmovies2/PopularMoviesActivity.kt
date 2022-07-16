@@ -16,6 +16,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.AsyncTaskLoader
 import androidx.loader.content.Loader
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chaitupenju.MovieAdapter
 import com.chaitupenju.MovieCriteriaActivity
 import com.chaitupenju.popularmovies2.databaseutils.MovieDbContract
+import com.chaitupenju.popularmovies2.databinding.ActivityPopularMoviesBinding
 import com.chaitupenju.popularmovies2.datautils.MovieDetails
 import com.chaitupenju.popularmovies2.datautils.NetworkUtils
 import com.chaitupenju.popularmovies2.datautils.ParseMovieJsonData
@@ -39,36 +41,24 @@ class PopularMoviesActivity: AppCompatActivity(),
         const val MOVIE_SER_KEY = "movie-serialize"
         const val MOVIE_BUNDLE_KEY = "movie-key"
         private const val MOVIE_LOADER_ID = 0
-        private const val SCROLL_POS_KEY = "scroll-position"
     }
 
-    var mListState: Parcelable? = null
-
-    var pb_load: ProgressBar? = null
-    lateinit var movieDetails: RecyclerView
-    var movieAdapter: MovieAdapter? = null
-    var error_msg: TextView? = null
-    var mLayoutManager: RecyclerView.LayoutManager? = null
-
+    private lateinit var popularMoviesBinding: ActivityPopularMoviesBinding
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_popular_movies)
-
-        pb_load = findViewById(R.id.progress_bar)
-        error_msg = findViewById(R.id.tv_error_msg)
-        movieDetails = findViewById(R.id.movie_details)
+        popularMoviesBinding = DataBindingUtil.setContentView(this@PopularMoviesActivity, R.layout.activity_popular_movies)
 
         movieAdapter = MovieAdapter(this) {
-            val context: Context = this
-            val destinationClass: Class<*> = MovieDetailActivity::class.java
-            val intentMovieDetailActivity = Intent(context, destinationClass)
+            val intentMovieDetailActivity = Intent(this@PopularMoviesActivity, MovieDetailActivity::class.java)
             intentMovieDetailActivity.putExtra(MOVIE_SER_KEY, it)
+
             startActivity(intentMovieDetailActivity)
         }
 
-        movieDetails.apply {
+        popularMoviesBinding.movieDetails.apply {
             itemAnimator = DefaultItemAnimator()
             adapter = movieAdapter
         }
@@ -76,19 +66,6 @@ class PopularMoviesActivity: AppCompatActivity(),
         loadCriteriaFromPref(PreferenceManager.getDefaultSharedPreferences(this))
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onSaveInstanceState(state: Bundle) {
-        super.onSaveInstanceState(state)
-
-        mListState = mLayoutManager!!.onSaveInstanceState()
-        state.putParcelable(SCROLL_POS_KEY, mListState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-
-        mListState = savedInstanceState.getParcelable(SCROLL_POS_KEY)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -114,13 +91,6 @@ class PopularMoviesActivity: AppCompatActivity(),
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (mListState != null) {
-            mLayoutManager!!.onRestoreInstanceState(mListState)
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -133,8 +103,8 @@ class PopularMoviesActivity: AppCompatActivity(),
             var details: Array<MovieDetails>? = null
 
             override fun onStartLoading() {
-                pb_load!!.visibility = View.VISIBLE
-                error_msg!!.visibility = View.INVISIBLE
+                popularMoviesBinding.progressBar.visibility = View.VISIBLE
+                popularMoviesBinding.tvErrorMsg.visibility = View.INVISIBLE
                 if (details != null) {
                     deliverResult(details)
                 } else {
@@ -174,8 +144,8 @@ class PopularMoviesActivity: AppCompatActivity(),
                             getMoviesFromCursor(cursor) ?: return null
                         val resDetails = res.toTypedArray()
                         cursor.close()
-                        error_msg!!.visibility = View.INVISIBLE
-                        movieDetails.visibility = View.VISIBLE
+                        popularMoviesBinding.tvErrorMsg.visibility = View.INVISIBLE
+                        popularMoviesBinding.movieDetails.visibility = View.VISIBLE
                         return resDetails
                     }
                 }
@@ -186,17 +156,14 @@ class PopularMoviesActivity: AppCompatActivity(),
 
     override fun onLoadFinished(loader: Loader<Array<MovieDetails>>, data: Array<MovieDetails>?) {
         if (data != null) {
-            pb_load!!.visibility = View.INVISIBLE
-            movieDetails.visibility = View.VISIBLE
-            movieAdapter!!.setMovieData(data)
+            popularMoviesBinding.progressBar.visibility = View.INVISIBLE
+            popularMoviesBinding.movieDetails.visibility = View.VISIBLE
+            movieAdapter.setMovieData(data)
             Log.d("LLL", Arrays.toString(data))
         } else {
-            error_msg!!.visibility = View.VISIBLE
-            movieDetails.visibility = View.INVISIBLE
-            pb_load!!.visibility = View.INVISIBLE
-        }
-        if (mListState != null) {
-            mLayoutManager!!.onRestoreInstanceState(mListState)
+            popularMoviesBinding.tvErrorMsg.visibility = View.VISIBLE
+            popularMoviesBinding.movieDetails.visibility = View.INVISIBLE
+            popularMoviesBinding.progressBar.visibility = View.INVISIBLE
         }
     }
 

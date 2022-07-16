@@ -2,16 +2,15 @@ package com.chaitupenju
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.chaitupenju.popularmovies2.R
+import com.chaitupenju.popularmovies2.databinding.MovieListItemBinding
 import com.chaitupenju.popularmovies2.datautils.MovieDetails
+import com.squareup.picasso.Picasso
 
 class MovieAdapter(
     private val context: Context,
-    val mMovieClickHandler: (MovieDetails) -> Unit
+    private val mMovieClickHandler: (MovieDetails) -> Unit
 ) : RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder>() {
 
     var mMovieData: Array<MovieDetails> = arrayOf()
@@ -31,30 +30,27 @@ class MovieAdapter(
         parent: ViewGroup,
         viewType: Int
     ): MovieAdapter.MovieAdapterViewHolder {
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.movie_list_item, parent, false)
-        return MovieAdapterViewHolder(view)
+        return MovieAdapterViewHolder(
+            MovieListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: MovieAdapter.MovieAdapterViewHolder, position: Int) {
         val movieDetail = mMovieData[position]
-        holder.onBind(data = movieDetail)
-//        Picasso.with(context)
-//                .load(BASE_IMAGE_URL1 + movieDetail.getImage_url() + BASE_IMAGE_URL2)
-//                .into(holder.mMovieImageView);
+        holder.onBind(movieDetail = movieDetail)
+
+        holder.itemView.setOnClickListener { mMovieClickHandler.invoke(movieDetail) }
     }
 
     override fun getItemCount(): Int = mMovieData.size
 
-    inner class MovieAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val mMovieImageView: ImageView
+    inner class MovieAdapterViewHolder(private val binding: MovieListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            mMovieImageView = itemView.findViewById(R.id.movie_img)
-        }
-
-        fun onBind(data: MovieDetails) {
-            mMovieClickHandler.invoke(data)
+        fun onBind(movieDetail: MovieDetails) {
+            Picasso.Builder(context)
+                .build()
+                .load(BASE_IMAGE_URL1 + movieDetail.image_url + BASE_IMAGE_URL2)
+                .into(binding.movieImg)
         }
     }
 }

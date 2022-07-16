@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#000">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:id="@+id/movie_img"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:layout_margin="1dp"
-        android:contentDescription="@string/content_desc"
-        android:src="@drawable/ic_launcher_background" />
+        android:background="#000">
 
+        <ImageView
+            android:id="@+id/movie_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/content_desc"
+            android:src="@drawable/ic_launcher_background" />
 
-</FrameLayout>
+    </FrameLayout>
+</layout>
