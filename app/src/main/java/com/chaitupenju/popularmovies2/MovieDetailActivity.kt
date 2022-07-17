@@ -17,10 +17,10 @@ import com.chaitupenju.popularmovies2.databinding.ActivityMovieDetailBinding
 import com.chaitupenju.popularmovies2.datautils.MovieDetails
 import com.chaitupenju.popularmovies2.datautils.NetworkUtils
 import com.chaitupenju.popularmovies2.datautils.ParseMovieJsonData
-import com.chaitupenju.popularmovies2.reviews.Review
-import com.chaitupenju.popularmovies2.reviews.ReviewsAdapter
-import com.chaitupenju.popularmovies2.trailers.Trailer
-import com.chaitupenju.popularmovies2.trailers.TrailersAdapter
+import com.chaitupenju.popularmovies2.models.Review
+import com.chaitupenju.popularmovies2.adapters.ReviewsAdapter
+import com.chaitupenju.popularmovies2.models.Trailer
+import com.chaitupenju.popularmovies2.adapters.TrailersAdapter
 import com.squareup.picasso.Picasso
 import org.json.JSONException
 import java.io.IOException

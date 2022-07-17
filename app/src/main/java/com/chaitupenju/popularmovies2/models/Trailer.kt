@@ -1,4 +1,4 @@
-package com.chaitupenju.popularmovies2.trailers
+package com.chaitupenju.popularmovies2.models
 
 import android.util.Log
 

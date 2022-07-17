@@ -6,14 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chaitupenju.popularmovies2.databinding.MovieListItemBinding
 import com.chaitupenju.popularmovies2.datautils.MovieDetails
+import com.chaitupenju.popularmovies2.models.MovieDetail
 import com.squareup.picasso.Picasso
 
 class MovieAdapter(
     private val context: Context,
-    private val mMovieClickHandler: (MovieDetails) -> Unit
+    private val mMovieClickHandler: (MovieDetail) -> Unit
 ) : RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder>() {
 
-    var mMovieData: Array<MovieDetails> = arrayOf()
+    var mMovieData: List<MovieDetail> = listOf()
 
     companion object {
         const val BASE_IMAGE_URL1 = "https://image.tmdb.org/t/p/w500"
@@ -21,7 +22,7 @@ class MovieAdapter(
             "?api_key=e62aae5e1c8389286f8dd8a887787ff7&page=1&language=en-US"
     }
 
-    fun setMovieData(movieData: Array<MovieDetails>) {
+    fun setMovieData(movieData: List<MovieDetail>) {
         mMovieData = movieData
         notifyDataSetChanged()
     }
@@ -46,10 +47,10 @@ class MovieAdapter(
 
     inner class MovieAdapterViewHolder(private val binding: MovieListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(movieDetail: MovieDetails) {
+        fun onBind(movieDetail: MovieDetail) {
             Picasso.Builder(context)
                 .build()
-                .load(BASE_IMAGE_URL1 + movieDetail.image_url + BASE_IMAGE_URL2)
+                .load(BASE_IMAGE_URL1 + movieDetail.posterPath + BASE_IMAGE_URL2)
                 .into(binding.movieImg)
         }
     }

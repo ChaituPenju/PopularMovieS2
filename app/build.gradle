@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 31
@@ -41,12 +42,20 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // for multidex support
     implementation "androidx.multidex:multidex:2.0.1"
+
+    // retrofit for networking
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // okhttp logging
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 
     // testing libraries
     testImplementation 'junit:junit:4.13.2'

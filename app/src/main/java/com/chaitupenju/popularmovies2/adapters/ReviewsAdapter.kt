@@ -1,4 +1,4 @@
-package com.chaitupenju.popularmovies2.reviews
+package com.chaitupenju.popularmovies2.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.chaitupenju.popularmovies2.R
+import com.chaitupenju.popularmovies2.models.Review
 
 class ReviewsAdapter(
     private val context: Context,

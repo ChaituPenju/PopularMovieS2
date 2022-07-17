@@ -8,8 +8,8 @@ import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
 import com.chaitupenju.popularmovies2.databaseutils.MovieDbContract;
-import com.chaitupenju.popularmovies2.reviews.Review;
-import com.chaitupenju.popularmovies2.trailers.Trailer;
+import com.chaitupenju.popularmovies2.models.Review;
+import com.chaitupenju.popularmovies2.models.Trailer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

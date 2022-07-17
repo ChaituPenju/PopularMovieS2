@@ -3,8 +3,8 @@ package com.chaitupenju.popularmovies2.datautils;
 
 
 
-import com.chaitupenju.popularmovies2.reviews.Review;
-import com.chaitupenju.popularmovies2.trailers.Trailer;
+import com.chaitupenju.popularmovies2.models.Review;
+import com.chaitupenju.popularmovies2.models.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,19 +30,6 @@ public class ParseMovieJsonData {
 
 
     private static final String RESULT = "results";
-
-    public static MovieDetails[] parseJson(String jsonStr) throws JSONException {
-        MovieDetails[] details;
-        JSONObject movieObj = new JSONObject(jsonStr);
-        JSONArray movieArr = movieObj.getJSONArray(RESULT);
-        details = new MovieDetails[movieArr.length()];
-        for(int i = 0; i < movieArr.length(); i++){
-            JSONObject indvObjs = movieArr.getJSONObject(i);
-            MovieDetails intoArray = new MovieDetails(indvObjs.getString(ID_PARAM),indvObjs.getString(TITLE_PARAM), indvObjs.getString(IMGURL_PARAM), indvObjs.getString(SYNOPSYS_PARAM), String.valueOf(indvObjs.getDouble(RATING_PARAM)), indvObjs.getString(RELEASE_DATE_PARAM));
-            details[i] = intoArray;
-        }
-        return details;
-    }
 
     public static ArrayList<Trailer> parseTrailerDetails(String trailerStr) throws JSONException{
         JSONObject json = new JSONObject(trailerStr);
